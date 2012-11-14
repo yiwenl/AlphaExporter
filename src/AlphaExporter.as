@@ -97,6 +97,7 @@ package {
 		
 		private function _onExportImage(e:Event) : void {
 			if(_bmpd == null) return;
+			while(_container.numChildren > 0) _container.removeChildAt(0);
 			_bmpdExport = new BitmapData(_bmpd.width, _bmpd.height, false, 0);
 			_bmpdExport.copyChannel(_bmpd, _bmpd.rect, new Point, BitmapDataChannel.RED, BitmapDataChannel.RED);
 			_bmpdExport.copyChannel(_bmpd, _bmpd.rect, new Point, BitmapDataChannel.GREEN, BitmapDataChannel.GREEN);
@@ -108,7 +109,7 @@ package {
 			_bmpdAlpha.copyChannel(_bmpd, _bmpd.rect, new Point, BitmapDataChannel.ALPHA, BitmapDataChannel.BLUE);
 			
 			_fileNameLabel.text = "Processing ... ";
-			
+
 			var enc:JPGEncoder = new JPGEncoder(Math.floor(_quality.value));
 			var ba:ByteArray = enc.encode(_bmpdExport);
 			var fi:File = File.desktopDirectory.resolvePath(_fileName+"Export.jpg");
@@ -127,7 +128,6 @@ package {
 			
 			_fileNameLabel.text = "Done !";
 			
-			while(_container.numChildren > 0) _container.removeChildAt(0);
 			var bmpd:BitmapData = new BitmapData(_bmpd.width, _bmpd.height, true, 0);
 			bmpd.draw(_bmpdExport);
 			bmpd.copyChannel(_bmpdAlpha, bmpd.rect, new Point, BitmapDataChannel.RED, BitmapDataChannel.ALPHA);
